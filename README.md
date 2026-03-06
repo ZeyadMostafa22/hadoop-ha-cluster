@@ -314,7 +314,6 @@ hadoop-ha-cluster/
 ## 👤 Author
 
 **Zeyad Mostafa**  
-ITI — Data Management Track  
 March 2026
 
 ---
