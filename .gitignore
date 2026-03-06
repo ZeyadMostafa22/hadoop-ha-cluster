@@ -1,0 +1,28 @@
+# Large downloaded packages
+Shared/hadoop-3.4.2/
+Shared/apache-zookeeper-3.8.4-bin/
+Shared/hadoop-3.4.2.tar.gz
+Shared/apache-zookeeper-3.8.4-bin.tar.gz
+
+# SSH keys and sensitive data
+**/.ssh/
+**/id_rsa
+**/id_rsa.pub
+**/authorized_keys
+**/*.pem
+**/*.key
+
+# Hadoop runtime data
+**/namenode/
+**/datanode/
+**/journalnode/
+**/zookeeper/data/
+
+# Logs
+**/logs/
+**/*.log
+
+# Temp files
+**/*.pid
+**/*.tmp
+**/hsperfdata_*/

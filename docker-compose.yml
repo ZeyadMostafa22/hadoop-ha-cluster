@@ -1,0 +1,93 @@
+version: "3.9"
+
+services:
+  node1:
+    image: hadoop-node01:latest
+    container_name: node01
+    hostname: node01
+    ports:
+      - "8481:8480"
+      - "9871:9870"
+      - "8081:8088"
+    command: bash /shared/scripts/start-master1.sh
+    volumes:
+      - ./shared:/shared
+    networks:
+      - cluster-network
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/.master1_ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  node2:
+    image: hadoop-node02:latest
+    container_name: node02
+    hostname: node02
+    ports:
+      - "8482:8480"
+      - "9872:9870"
+      - "8082:8088"
+    command: bash /shared/scripts/start-master2.sh
+    volumes:
+      - ./shared:/shared
+    networks:
+      - cluster-network
+    depends_on:
+      node1:
+        condition: service_healthy
+
+  node3:
+    image: hadoop-node03:latest
+    container_name: node03
+    hostname: node03
+    ports:
+      - "8483:8480"
+      - "9873:9870"
+      - "8083:8088"
+    command: bash /shared/scripts/start-node03.sh
+    volumes:
+      - ./shared:/shared
+    networks:
+      - cluster-network
+    depends_on:
+      node1:
+        condition: service_healthy
+
+  node4:
+    image: hadoop-node04:latest
+    container_name: node04
+    hostname: node04
+    ports:
+      - "8484:8480"
+      - "9874:9870"
+      - "8084:8088"
+    command: bash /shared/scripts/start-worker.sh
+    volumes:
+      - ./shared:/shared
+    networks:
+      - cluster-network
+    depends_on:
+      node1:
+        condition: service_healthy
+
+  node5:
+    image: hadoop-node05:latest
+    container_name: node05
+    hostname: node05
+    ports:
+      - "8485:8480"
+      - "9875:9870"
+      - "8085:8088"
+    command: bash /shared/scripts/start-worker.sh
+    volumes:
+      - ./shared:/shared
+    networks:
+      - cluster-network
+    depends_on:
+      node1:
+        condition: service_healthy
+
+networks:
+  cluster-network:
+    driver: bridge
